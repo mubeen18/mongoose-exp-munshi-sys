@@ -1,14 +1,39 @@
 var Munshi = require('../models/munshi.server.model');
 
 exports.create = (req,res) => {
-    var entry = new Munshi(req.body);
-    
+    const { department, name, email, password, phone } = req.body;
+    const admin = "Admin";
+
+    var entry = new Munshi({
+        department: department,
+        data:{
+            user:{
+                status:admin,
+                name:name,
+                email:email,
+                phone:phone,
+                auth:{
+                    email:email,
+                    password:password,
+                    createdAt: Date.now(),
+                    updatedAt: Date.now(),
+                    token:null,
+                }
+            }
+        }
+    });
+
     entry.save((err)=>{
         if(err){
-            res.status(500).send(err);
+            if(err.name === "MongoError" && err.code === 11000){
+                res.status(500).send("Email already exists\nTry again!");    
+            }
+            else {
+                res.status(500).send(err);
+            }
         }
         else {
-            res.json(req.body);
+            res.status(200).send("Department Created Successfully");
         }
     });
 }

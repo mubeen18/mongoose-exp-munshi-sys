@@ -11,7 +11,11 @@ var mongoose = require('mongoose');
 var app = express();
 
 //Connect to MongoDB
-var db = mongoose.connect('mongodb://localhost/MunshiSystem');
+var db = mongoose.connect('mongodb://localhost/MunshiSystem',{
+  useCreateIndex: true,
+  useNewUrlParser: true
+});
+
 var port = process.env.PORT || 3000;
 
 //swig

@@ -3,9 +3,19 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 
+function emailFormat(value){
+    return (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value)) ?  true : false; 
+}
+
+
 const authentication = new Schema(
     {
-        email: String,
+        email: {
+            type: String, 
+            unique: true, 
+            required: true,
+            validate: [emailFormat, "Email format Invalid!"]
+        },
         password: String,
         createdAt: String,
         updatedAt: String,
@@ -38,7 +48,10 @@ const expenseSchema = new Schema(
 const userSchema = new Schema(
     {
         status:String,
-        name:String,
+        name: {
+            type: String,  
+            required: true
+        },
         email:String,
         phone:String,
         dateOfBirth:Date,
@@ -55,7 +68,10 @@ const departmentSchema = new Schema(
 )
 
 const munshiSchema = new Schema({
-    department: String,
+    department: {
+        type: String,  
+        required: true
+    },
     data: departmentSchema
 })
 
