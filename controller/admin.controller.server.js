@@ -17,7 +17,7 @@ exports.create = (req,res) => {
                     password:password,
                     createdAt: Date.now(),
                     updatedAt: Date.now(),
-                    token:null,
+                    token:null
                 }
             }
         }
