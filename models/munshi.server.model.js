@@ -6,7 +6,9 @@ var mongoose = require('mongoose'),
 function emailFormat(value){
     return (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value)) ?  true : false; 
 }
-
+function toLower (str) {
+    return str.toLowerCase();
+}
 
 const authentication = new Schema(
     {
@@ -14,7 +16,8 @@ const authentication = new Schema(
             type: String, 
             unique: true, 
             required: true,
-            validate: [emailFormat, "Email format Invalid!"]
+            validate: [emailFormat, "Email format Invalid!"],
+            set: toLower
         },
         password: String,
         createdAt: String,
@@ -52,7 +55,10 @@ const userSchema = new Schema(
             type: String,  
             required: true
         },
-        email:String,
+        email: {
+            type: String,
+            set: toLower,
+        },
         phone:String,
         dateOfBirth:Date,
         events: [eventSchema],

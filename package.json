@@ -12,6 +12,7 @@
     "gulp": "^4.0.2",
     "gulp-nodemon": "^2.5.0",
     "http-errors": "~1.6.3",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.10",
     "morgan": "~1.9.1",
     "swig": "^1.4.2"
