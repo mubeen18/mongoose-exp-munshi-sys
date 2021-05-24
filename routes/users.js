@@ -3,11 +3,12 @@ var router = express.Router();
 var userCtrl = require('../controller/user.controller.server');
 const verifyToken = require('../_shared/jwt.token.validate');
 const jwt = require('jsonwebtoken');
+const config = require('../config.js');
 
 router.get('/',verifyToken,(req,res)=>{
-    jwt.verify(req.token,'secretkey',(err,authData)=>{
-        if(err){
-            res.status(403).send("Token not provided");
+    jwt.verify(req.token,config.secret,(err,authData)=>{
+        if(err) {
+            res.status(403).send(err);
         }
         else {
             return userCtrl.read(req,res);

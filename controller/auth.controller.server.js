@@ -1,5 +1,7 @@
 const Munshi = require("../models/munshi.server.model");
 const jwt = require('jsonwebtoken');
+var bcrypt = require('bcryptjs');
+var config = require('../config.js');
 
 exports.register = (req,res) => {
     /* const { name, email, password, phone } = req.body; */
@@ -38,9 +40,8 @@ exports.login = (req,res) => {
                     department:data.department
                 }
 
-                jwt.sign({user},'secretkey',{expiresIn:"30 sec"},(err,token)=>{
-                    res.json({token})
-                })
+                const token = jwt.sign({user},config.secret,{ expiresIn:"30 min" })
+                res.json({token})
             }
         }
     })

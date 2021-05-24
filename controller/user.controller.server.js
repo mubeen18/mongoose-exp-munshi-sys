@@ -11,7 +11,7 @@ exports.create = (req,res) => {
 
 exports.read = (req,res) => {
     var query = req.query;
-    
+        
     Munshi.find(query,(err,data)=>{
         if(err) {
             res.status(500).send(err);
