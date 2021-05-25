@@ -8,6 +8,7 @@ var UserRouter = require('./routes/users');
 var AdminRouter = require('./routes/admin');
 var AuthRouter = require('./routes/auth');
 var EventRouter = require('./routes/event');
+var ExpenseRouter = require('./routes/expense');
 
 var mongoose = require('mongoose');
 require('dotenv').config()
@@ -40,6 +41,7 @@ app.use('/user', UserRouter);
 app.use('/admin', AdminRouter);
 app.use('/auth',AuthRouter);
 app.use('/event',EventRouter);
+app.use('/expense',ExpenseRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

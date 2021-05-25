@@ -35,7 +35,7 @@ const eventSchema = new Schema(
         paidAmount: Number,
         date: Date,
         paymentStatus: String,
-    }, { _id: false }
+    }
 )
 
 const expenseSchema = new Schema(
@@ -45,7 +45,7 @@ const expenseSchema = new Schema(
         date: Date,
         paymentBy: String,
         description: String,
-    }, { _id: false }
+    }
 )
 
 const userSchema = new Schema(

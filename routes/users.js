@@ -11,14 +11,20 @@ router.get('/',verifyToken,(req,res)=>{
             res.status(403).send(err);
         }
         else {
-            return userCtrl.read(req,res);
-        } 
+            return userCtrl.read(req,res,authData);     
+        }
     });
-    return userCtrl.read(req,res);
 })
 
-router.post('/',(req,res)=>{
-    return userCtrl.create(req,res);
+router.post('/',verifyToken,(req,res)=>{
+    jwt.verify(req.token,config.secret,(err,authData)=>{
+        if(err) {
+            res.status(403).send(err);
+        }
+        else {
+            return userCtrl.create(req,res,authData);     
+        }
+    });
 })
 
 module.exports = router;

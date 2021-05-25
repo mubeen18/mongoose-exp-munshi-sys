@@ -1,49 +1,54 @@
-var Munshi = require("../models/munshi.server.model");
+const Munshi = require("../models/munshi.server.model");
 
 exports.read = (req,res,authData) => {
     const deptId = authData.user.deptId;
-    const userId = authData.user.userId;
 
     Munshi.findById(deptId, function (err, myData) {
         if(err){
             res.status(500).send(err);
         }
         else {
-            let events = myData.data.user.id(userId).events;
-            res.status(200).send(events);
+            let myExpense = myData.data.expense;
+            res.status(200).send(myExpense);
         }
     });
 }
 
 exports.create = (req,res,authData) => {
-    const { title, totalAmount, pendingAmount, paidAmount } = req.body;
-    
+    const { title, amount, paymentBy, description } = req.body;
     const deptId = authData.user.deptId;
-    const userId = authData.user.userId;
 
-    const event = {
+    const expense = {
         title: title,
-        totalAmount: totalAmount,
-        pendingAmount: pendingAmount,
-        paidAmount: paidAmount,
+        amount:amount,
         date: Date.now(),
+        paymentBy: paymentBy,
+        description:description,
     }
 
     Munshi.findById(deptId, function (err, myData) {
         if(err){
-            res.status(200).send(err);
+            res.status(500).send(err);
         }
         else {
-            let events = myData.data.user.id(userId).events;
-            events.push(event);   
+            let myExpense = myData.data.expense;
+            myExpense.push(expense);   
             myData.save((err)=>{
                 if(err){
                     res.status(500).send(err);
                 }
                 else {
-                    res.json(events)
+                    res.json(expense);
                 }
             });
         }
     });
+}
+
+exports.customUpdate = (req,res,authData)=> {
+    
+}
+
+exports.update = (req,res,authData)=> {
+    
 }
