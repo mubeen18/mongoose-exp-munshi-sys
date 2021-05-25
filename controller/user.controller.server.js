@@ -113,3 +113,17 @@ exports.customUpdate = (req,res,authData)=>{
         }
     });
 }
+
+exports.readSingleRecord = (req,res,authData)=>{
+    const deptId = authData.user.deptId;
+
+    Munshi.findById(deptId, function (err, myData) {
+        if(err) {
+            res.status(500).send(err);
+        }
+        else {
+            let myUser = myData.data.user.id(req.params.id);
+            res.status(200).send(myUser);
+        }
+    });
+}

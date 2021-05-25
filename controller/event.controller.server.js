@@ -100,3 +100,18 @@ exports.customUpdate = (req,res,authData) => {
         }
     });
 }
+
+exports.readSingleRecord = (req,res,authData)=> {
+    const deptId = authData.user.deptId;
+    const userId = authData.user.userId;
+
+    Munshi.findById(deptId, function (err, myData) {
+        if(err){
+            res.status(500).send(err);
+        }
+        else {
+            let myEvent = myData.data.user.id(userId).events.id(req.params.id);
+            res.status(200).send(myEvent);
+        }
+    });
+}

@@ -16,6 +16,17 @@ router.get('/',verifyToken,(req,res)=>{
     });
 })
 
+router.get('/:id',verifyToken,(req,res)=>{
+    jwt.verify(req.token,config.secret,(err,authData)=>{
+        if(err) {
+            res.status(403).send(err);
+        }
+        else {
+            return userCtrl.readSingleRecord(req,res,authData);     
+        }
+    });
+})
+
 router.post('/',verifyToken,(req,res)=>{
     jwt.verify(req.token,config.secret,(err,authData)=>{
         if(err) {

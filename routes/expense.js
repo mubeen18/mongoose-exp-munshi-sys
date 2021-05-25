@@ -28,6 +28,17 @@ router.post('/',verifyToken,(req,res)=>{
     
 })  
 
+router.get('/:id',verifyToken,(req,res)=>{
+    jwt.verify(req.token,config.secret,(err,authData)=>{
+        if(err) {
+            res.status(403).send(err);
+        }
+        else {
+            return expenseCtrl.readSingleRecord(req,res,authData);     
+        }
+    });
+})
+
 router.patch('/:id',verifyToken,(req,res)=>{
     jwt.verify(req.token,config.secret,(err,authData)=>{
         if(err){
