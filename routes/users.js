@@ -27,4 +27,26 @@ router.post('/',verifyToken,(req,res)=>{
     });
 })
 
+router.delete('/:id',verifyToken,(req,res)=>{
+    jwt.verify(req.token,config.secret,(err,authData)=>{
+        if(err){
+            res.status(403).send(err);
+        }
+        else {
+            return userCtrl.delete(req,res,authData);
+        }
+    })
+})
+
+router.patch('/:id',verifyToken,(req,res)=>{
+    jwt.verify(req.token,config.secret,(err,authData)=>{
+        if(err){
+            res.status(403).send(err);
+        }
+        else {
+            return userCtrl.customUpdate(req,res,authData);
+        }
+    })
+})
+
 module.exports = router;

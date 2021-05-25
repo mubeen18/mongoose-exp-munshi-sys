@@ -62,3 +62,54 @@ exports.read = (req,res,authData) => {
         }
     });
 }
+
+exports.delete = (req,res,authData)=>{
+    const deptId = authData.user.deptId;
+    //check to add so, oly admin can delete, no other user can perform this operation.
+    Munshi.findById(deptId, function (err, myData) {
+        if(err) {
+            res.status(500).send(err);
+        }
+        else {
+            let myUser = myData.data.user.id(req.params.id);
+            myUser.remove();   
+            myData.save((err)=>{
+                if(err){
+                    res.status(500).send(err);
+                }
+                else {
+                    res.json("User deleted");
+                }
+            });
+        }
+    });
+
+}
+
+exports.customUpdate = (req,res,authData)=>{
+    const deptId = authData.user.deptId;
+    //check to add so, oly admin can delete, no other user can perform this operation.
+    Munshi.findById(deptId, function (err, myData) {
+        if(err) {
+            res.status(500).send(err);
+        }
+        else {
+            let myUser = myData.data.user.id(req.params.id);
+
+            if(req.body._id)    delete req.body._id;
+
+            for(var p in req.body){
+                myUser[p] = req.body[p];
+            }
+
+            myData.save((err)=>{
+                if(err){
+                    res.status(500).send(err);
+                }
+                else {
+                    res.json(myUser);
+                }
+            });
+        }
+    });
+}

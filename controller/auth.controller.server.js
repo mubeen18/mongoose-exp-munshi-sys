@@ -15,7 +15,7 @@ exports.register = (req,res) => {
     });
     entry.save(); */
 
-    res.status(200).send("mubeen");
+    res.status(200).send("The feature will be integrated in future, You can create a new user from user post request");
 }
 
 

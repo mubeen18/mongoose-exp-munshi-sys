@@ -1,8 +1,10 @@
 var Munshi = require('../models/munshi.server.model');
+var pass = require('../_shared/md5.password');
 
 exports.create = (req,res) => {
     const { department, name, email, password, phone } = req.body;
     const admin = "Admin";
+    ecodedPassword = pass.strToMd05(password);
 
     var entry = new Munshi({
         department: department,
@@ -12,7 +14,7 @@ exports.create = (req,res) => {
                 name:name,
                 email:email,
                 phone:phone,
-                auth:{
+                auth: {
                     email:email,
                     password:password,
                     createdAt: Date.now(),

@@ -47,3 +47,56 @@ exports.create = (req,res,authData) => {
         }
     });
 }
+
+exports.delete = (req,res,authData) => {
+    const deptId = authData.user.deptId;
+    const userId = authData.user.userId;
+
+    Munshi.findById(deptId, function (err, myData) {
+        if(err){
+            res.status(500).send(err);
+        }
+        else {
+            let events = myData.data.user.id(userId).events.id(req.params.id);
+            console.log(events);
+            events.remove();   
+            myData.save((err)=>{
+                if(err){
+                    res.status(500).send(err);
+                }
+                else {
+                    res.json("Event removed");
+                }
+            });
+        }
+    });
+}
+
+
+exports.customUpdate = (req,res,authData) => {
+    const deptId = authData.user.deptId;
+    const userId = authData.user.userId;
+
+    Munshi.findById(deptId, function (err, myData) {
+        if(err){
+            res.status(500).send(err);
+        }
+        else {
+            let myEvent = myData.data.user.id(userId).events.id(req.params.id);
+            if(req.body._id)    delete req.body._id;
+
+            for(var p in req.body){
+                myEvent[p] = req.body[p];
+            }
+
+            myData.save((err)=>{
+                if(err){
+                    res.status(500).send(err);
+                }
+                else {
+                    res.json(myEvent);
+                }
+            });
+        }
+    });
+}
